@@ -20,12 +20,12 @@
       and takes you to @app.route("/auth")
       This is built into the HTML structure. It is linking up the front and the back end. 
       The action is adding an "/auth" after the current web address. -->
-      Username: <input type="text" name="username" required> 
+      UserID: <input type="number" name="username" required> 
       <br>
       Password: <input type="password" name ="password" required>
       <br>
       <input type="submit" name="sub1" value = "Log In"> 
-      {% if error == "Wrong Password HEHEHEHAWWWWW" %} <!-- this code will run if there is an error: Wrong password -->
+      {% if error == "Wrong Password" %} <!-- this code will run if there is an error: Wrong password -->
          <action= "/">
          <br>
          Password is WRONG, Try Again <!-- Adds a message under the login-->
@@ -34,7 +34,7 @@
       {% if error == "Username Does not Exist, GO BACK" %} <!-- this code will run if there is an error: USERNAME DNE!  -->
       <action= "/">
       <br>
-      Username is WRONG, Try Again <!-- Adds a message under the login-->
+      Username is Does Not Exist, Try Again <!-- Adds a message under the login-->
       {% endif %}
 
     </form>

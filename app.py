@@ -6,6 +6,20 @@
 from flask import Flask, render_template, request
 import sqlite3
 
+DB_FILE = "logins.db"
+db = sqlite3.connect(DB_FILE, check_same_thread=False) #the "check_same_thread=False" is needed to stop errors
+c = db.cursor()
+
+# CREATING login
+tbleName = "login"
+parameters = "UserID INT, Name TEXT, Password TEXT"
+
+command = (f"create table if not exists {tbleName} ({parameters})")
+c.execute(command)
+
+db.commit() #save changes
+
+
 app = Flask(__name__)    #create Flask object
 
 @app.route("/")
@@ -14,34 +28,67 @@ def disp_loginpage():
 
 @app.route("/auth")
 def authenticate():
-    return render_template( 'adding.html' )
+    userID = int(request.args['username'])
+    password = str(request.args['password'])
+    logList = c.execute('select * from login').fetchall()
+    
+    idExists = False
+    
+    for IDs in logList:
+        if userID == int(IDs[0]):
+            combo = IDs
+            idExists = True
+            break #not needed but makes it faster
+    if(idExists == False):
+        print("\n")
+        print("WRONG USERNAME \n") #code to see it working in the terminal
+        return render_template('login.html', error = "Username Does not Exist, GO BACK") #calls the function with the error
+    else:
+        print("\n") 
+        print("Username is correct")
+    
+    if(password == IDs[2]):
+        print("password Works")
+    else:
+        print("wrong password")
+        return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error
+        
+    return "HEYYYYYYYYYY WHY U HERE MF"
 
-@app.route("/signUp", methods=['GET','POST'])
-def signup():
-    if request.method == 'GET': #if opening this route
-        return render_template('signup.html') 
-    if request.method == 'POST': #if submitting information
-        usernames = users.keys()
-        newuser = request.form.get('username') #when using "POST" request.args DNE
-        password = request.form.get('password')
-        confirmation = request.form.get('confirmation')
-        if newuser in usernames: #check if user exists
-            error = "Username already exists"
+@app.route("/signUp")
+def signUp(): #this code will change the HTML template from login.html to signUp.html
+    return render_template( 'signUp.html' )
+
+@app.route("/register")
+def register():
+    user1 = int(request.args['username1'])
+    pass1 = request.args['password1']
+    pass2 = request.args['password2']
+    name = str(request.args['name1'])
+    logList = c.execute('select * from login').fetchall()
+    print("List of Logins " +logList)
+    for useID in logList :
+        print(useID[0])
+        if user1 == int(useID[0]):
+            print(useID[0])
             return render_template('signup.html', 
-                error=error) #redirects back to page with error
-        if password != confirmation: 
-            error = "PASSWORDS DO NOT MATCH!!!!!!"
-            return render_template('signup.html', 
-                error=error)
+                                   error= "Username already exists") #redirects back to page with error
+    if pass1 != pass2: 
+        error = "Passwords Do Not Match Try Again!"
+        return render_template('signup.html', 
+            error=error)
+    pass1 = str(pass2)
+    command = (f"INSERT INTO login VALUES(\"{user1}\", \"{name}\", \"{pass1}\")") #the \"\"
+    c.execute(command)
+    print(c.execute('select * from login').fetchall())
+    db.commit()
+    return render_template('login.html')
 
-        with open('users.csv','a') as csvfile: #if newuser works, add to csv
-            csv_writer = csv.writer(csvfile)
-            csv_writer.writerow([newuser,password])
-        get_users() #update local dict to match csv
-
-        return render_template('login.html')
     
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
     app.debug = True 
     app.run()
+
+db.commit()
+db.close()  #close database
