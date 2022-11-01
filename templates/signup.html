@@ -1,0 +1,54 @@
+<!-- 
+Yusha Aziz
+SoftDev
+K11 -- flask-forms
+2022-10-14
+time spent: 1 hour
+-->
+
+<html>
+
+  <head>
+    <title> SIGNUP PAGE </title>
+  </head>
+
+  <body>
+    <h1>
+      Welcome, People Who Do Not Have an Account:
+    </h1>
+
+
+    <h3>
+      Signup Below:
+    </h3>    
+    <form action="/"> <!-- The significance of this line, is that when you hit submit it puts /register in your action
+      and takes you to @app.route("/register")
+      This is built into the HTML structure. It is linking up the front and the back end. 
+      The action is adding an "/register" after the current web address. -->
+      Create Username: <input type="text" name="username1" required> 
+      <br>
+      Create Password: <input type="password" name ="password1" required>
+      <br>
+      Confirm Password: <input type="password" name ="password2" required>
+      <input type="submit" name="sub3"> 
+
+      {% if error == "Username Exists Try Again!" %} <!-- this code will run if there is an error: Password exists-->
+         <action= "/">
+         <br>
+         Username Exists, Try Again! <!-- Adds a message under the signup-->
+      {% endif %}
+
+      {% if error == "Passwords Do Not Match Try Again!" %} <!-- this code will run if there is an error: Passwords Do Not Match -->
+         <action= "/">
+         <br>
+         Passwords Do Not Match, Try Again! <!-- Adds a message under the signup-->
+      {% endif %}
+
+    </form>
+
+    <br>
+  </body>
+
+
+
+</html>

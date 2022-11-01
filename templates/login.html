@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+
+<html>
+
+  <head>
+    <title> LOGIN PAGE </title>
+  </head>
+
+  <body>
+    <h1>
+      Welcome, Travelers of the Intertoobz!
+    </h1>
+
+
+    <h3>
+      Enter your username below to proceed.
+    </h3>    
+    <form action="/auth"> <!-- The significance of this line, is that when you hit submit it puts /auth in your action
+      and takes you to @app.route("/auth")
+      This is built into the HTML structure. It is linking up the front and the back end. 
+      The action is adding an "/auth" after the current web address. -->
+      Username: <input type="text" name="username" required> 
+      <br>
+      Password: <input type="password" name ="password" required>
+      <br>
+      <input type="submit" name="sub1" value = "Log In"> 
+      {% if error == "Wrong Password HEHEHEHAWWWWW" %} <!-- this code will run if there is an error: Wrong password -->
+         <action= "/">
+         <br>
+         Password is WRONG, Try Again <!-- Adds a message under the login-->
+      {% endif %}
+
+      {% if error == "Username Does not Exist, GO BACK" %} <!-- this code will run if there is an error: USERNAME DNE!  -->
+      <action= "/">
+      <br>
+      Username is WRONG, Try Again <!-- Adds a message under the login-->
+      {% endif %}
+
+    </form>
+
+    <form action="/signUp"> <!-- This is a button that will take you to a new page to sign up-->
+      <br>
+      Do You want to SignUp? 
+      <input type="submit" name "sub2" value = "Sign Up">
+    </form>
+
+
+    
+
+
+
+    <br>
+  </body>
+
+
+
+</html>
