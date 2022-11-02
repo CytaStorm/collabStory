@@ -9,6 +9,7 @@ import sqlite3
 DB_FILE = "logins.db"
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #the "check_same_thread=False" is needed to stop errors
 c = db.cursor()
+currentUser = ""
 
 # CREATING login
 tbleName = "login"
@@ -56,6 +57,8 @@ def authenticate():
     
     if(password == IDs[2]):
         print("password Works")
+        currentUser = userID
+        return render_template('storyInput.html') #returns story page with userID stored
     else:
         print("wrong password")
         return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error
@@ -73,7 +76,8 @@ def register():
     pass2 = request.args['password2']
     name = str(request.args['name1'])
     logList = c.execute('select * from login').fetchall()
-    print("List of Logins " +logList)
+    print("List of Logins ") 
+    print(logList)
     for useID in logList :
         print(useID[0])
         if user1 == int(useID[0]):
@@ -98,7 +102,7 @@ def addStory():
 @app.route("/addedStory", methods=['POST'])
 def addedStory():
     newEntry = request.form['newEntry']
-    command = (f"INSERT INTO entries VALUES(\"test1\", \"{newEntry}\")")
+    command = (f"INSERT INTO entries VALUES(\"{currentUser}\", \"{newEntry}\")")
     c.execute(command) 
     print(c.execute('select * from entries'))
     db.commit()
