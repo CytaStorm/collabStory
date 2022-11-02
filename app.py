@@ -17,6 +17,12 @@ parameters = "UserID INT, Name TEXT, Password TEXT"
 command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
 
+#CREATING User entries
+tableName = "users"
+parameters = "UserID INT, Line TEXT"
+
+command = (f"create table if not exists {tbleName} ({parameters})")
+c.execute(command)
 db.commit() #save changes
 
 
@@ -57,7 +63,7 @@ def authenticate():
 
 @app.route("/signUp")
 def signUp(): #this code will change the HTML template from login.html to signUp.html
-    return render_template( 'signUp.html' )
+    return render_template( 'signup.html' )
 
 @app.route("/register")
 def register():
@@ -84,7 +90,14 @@ def register():
     db.commit()
     return render_template('login.html')
 
-    
+@app.route("/addStory")
+def addStory():
+    return render_template('storyInput.html')
+
+@app.route("/addedStory", methods=['POST'])
+def addedStory():
+    return render_template('addedStory.html')
+
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified
     app.debug = True 
