@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 
-
 <html>
 
   <head>
-    <title> LOGIN PAGE </title>
+    <title> LOGIN </title>
   </head>
 
   <body>
@@ -12,14 +11,15 @@
       Welcome, Travelers of the Intertoobz!
     </h1>
 
-
     <h3>
-      Enter your username below to proceed.
+      Enter your login information to proceed.
     </h3>    
+
     <form action="/auth"> <!-- The significance of this line, is that when you hit submit it puts /auth in your action
       and takes you to @app.route("/auth")
       This is built into the HTML structure. It is linking up the front and the back end. 
       The action is adding an "/auth" after the current web address. -->
+
       UserID: <input type="number" name="username" required> 
       <br>
       Password: <input type="password" name ="password" required>
@@ -40,9 +40,11 @@
     </form>
 
     <form action="/signUp"> <!-- This is a button that will take you to a new page to sign up-->
+
       <br>
       Do You want to SignUp? 
       <input type="submit" name "sub2" value = "Sign Up">
+
     </form>
 
 

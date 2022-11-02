@@ -6,12 +6,14 @@
 from flask import Flask, render_template, request
 import sqlite3
 
+### SETUP ###
+
 DB_FILE = "logins.db"
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #the "check_same_thread=False" is needed to stop errors
 c = db.cursor()
 currentUser = ""
 
-# CREATING login
+# CREATING login TABLE in logins.db
 tbleName = "login"
 parameters = "UserID INT, Name TEXT, Password TEXT"
 
@@ -19,14 +21,20 @@ command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
 db.commit() #save changes
 
-#CREATING User entries
+#CREATING User entries TABLE in logins.db
 tbleName = "entries"
 parameters = "UserID INT, Line TEXT"
 
+"""
+command = "drop table entries"
+c.execute(command)
+"""
 command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
 db.commit() #save changes
 
+
+### FLASK ###
 
 app = Flask(__name__)    #create Flask object
 
@@ -44,7 +52,7 @@ def authenticate():
     
     for IDs in logList:
         if userID == int(IDs[0]):
-            combo = IDs
+            # combo = IDs
             idExists = True
             break #not needed but makes it faster
     if(idExists == False):
@@ -57,13 +65,12 @@ def authenticate():
     
     if(password == IDs[2]):
         print("password Works")
-        currentUser = userID
         return render_template('storyInput.html') #returns story page with userID stored
     else:
         print("wrong password")
         return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error
         
-    return "HEYYYYYYYYYY WHY U HERE MF"
+    return "How'd you even get here?"
 
 @app.route("/signUp")
 def signUp(): #this code will change the HTML template from login.html to signUp.html
@@ -101,12 +108,17 @@ def addStory():
 
 @app.route("/addedStory", methods=['POST'])
 def addedStory():
+    # add entry into the main story
     newEntry = request.form['newEntry']
     command = (f"INSERT INTO entries VALUES(\"{currentUser}\", \"{newEntry}\")")
     c.execute(command) 
-    print(c.execute('select * from entries'))
+    # get the str of the whole story
+    list = c.execute('select * from entries').fetchall()
+    storyText = ""
+    for phrases in list:
+        storyText = storyText + "\n" + phrases[1]
     db.commit()
-    return render_template('addedStory.html')
+    return render_template('addedStory.html', story=storyText)
 
 if __name__ == "__main__": #false if this file imported as module
     #enable debugging, auto-restarting of server when this file is modified

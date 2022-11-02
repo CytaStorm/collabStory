@@ -3,7 +3,7 @@
 <html>
 
   <head>
-    <title> SIGNUP PAGE </title>
+    <title> SIGNUP </title>
   </head>
 
   <body>
@@ -11,14 +11,15 @@
       Welcome, People Who Do Not Have an Account!!:
     </h1>
 
-
     <h3>
       Signup Below:
     </h3>    
+
     <form action="/register"> <!-- The significance of this line, is that when you hit submit it puts /register in your action
       and takes you to @app.route("/register")
       This is built into the HTML structure. It is linking up the front and the back end. 
       The action is adding an "/register" after the current web address. -->
+
       Create UserID: <input type="number" name="username1" required> 
       <br>
       Name: <input type="text" name="name1" required> 
@@ -44,7 +45,5 @@
 
     <br>
   </body>
-
-
 
 </html>
