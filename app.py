@@ -16,9 +16,10 @@ parameters = "UserID INT, Name TEXT, Password TEXT"
 
 command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
+db.commit() #save changes
 
 #CREATING User entries
-tableName = "users"
+tbleName = "entries"
 parameters = "UserID INT, Line TEXT"
 
 command = (f"create table if not exists {tbleName} ({parameters})")
@@ -96,6 +97,11 @@ def addStory():
 
 @app.route("/addedStory", methods=['POST'])
 def addedStory():
+    newEntry = request.form['newEntry']
+    command = (f"INSERT INTO entries VALUES(\"test1\", \"{newEntry}\")")
+    c.execute(command) 
+    print(c.execute('select * from entries'))
+    db.commit()
     return render_template('addedStory.html')
 
 if __name__ == "__main__": #false if this file imported as module
