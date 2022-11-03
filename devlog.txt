@@ -10,5 +10,5 @@ Fang: Displaying story from sqlite db on browser
 
 2022-11-02
 --------------------------------------------------------------
-Fang: Added necessary files to tree; update README.md
+Fang: Added necessary files to tree; update README.md and design.pdf
 ==============================================================
