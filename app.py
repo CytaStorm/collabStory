@@ -65,6 +65,8 @@ def authenticate():
     
     if(password == IDs[2]):
         print("password Works")
+        currentUser = userID
+        #print(currentUser)
         return render_template('storyInput.html') #returns story page with userID stored
     else:
         print("wrong password")
@@ -102,10 +104,6 @@ def register():
     db.commit()
     return render_template('login.html')
 
-@app.route("/addStory")
-def addStory():
-    return render_template('storyInput.html')
-
 @app.route("/addedStory", methods=['POST'])
 def addedStory():
     # add entry into the main story
@@ -118,6 +116,7 @@ def addedStory():
     for phrases in list:
         storyText = storyText + "\n" + phrases[1]
     db.commit()
+    print(currentUser + "test")
     return render_template('addedStory.html', story=storyText)
 
 if __name__ == "__main__": #false if this file imported as module
