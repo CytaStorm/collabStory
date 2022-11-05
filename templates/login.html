@@ -20,22 +20,19 @@
       This is built into the HTML structure. It is linking up the front and the back end. 
       The action is adding an "/auth" after the current web address. -->
 
-      UserID: <input type="text" name="username" required> 
+      UserID: <input type="text" name="username" required>
+      {% if error == "Username Does not Exist, GO BACK" %} <!-- this code will run if there is an error: USERNAME DNE!  -->
+      	<action= "/">
+	Username is Does Not Exist, Try Again <!-- Adds a message under the login-->
+      {% endif %}
       <br>
       Password: <input type="password" name ="password" required>
+      {% if error == "Wrong Password" %} <!-- this code will run if there is an error: Wrong password -->
+	<action= "/">
+	Password is WRONG, Try Again <!-- Adds a message under the login-->
+      {% endif %}
       <br>
       <input type="submit" name="sub1" value = "Log In"> 
-      {% if error == "Wrong Password" %} <!-- this code will run if there is an error: Wrong password -->
-         <action= "/">
-         <br>
-         Password is WRONG, Try Again <!-- Adds a message under the login-->
-      {% endif %}
-
-      {% if error == "Username Does not Exist, GO BACK" %} <!-- this code will run if there is an error: USERNAME DNE!  -->
-      <action= "/">
-      <br>
-      Username is Does Not Exist, Try Again <!-- Adds a message under the login-->
-      {% endif %}
 
     </form>
 
