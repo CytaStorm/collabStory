@@ -33,25 +33,26 @@ command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
 db.commit() #save changes
 
+#COOKIES
+
 
 ### FLASK ###
-
 app = Flask(__name__)    #create Flask object
 
 @app.route("/")
 def disp_loginpage():
     return render_template( 'login.html' )
 
-@app.route("/auth")
+@app.route("/auth", methods=['POST'])
 def authenticate():
-    userID = int(request.args['username'])
-    password = str(request.args['password'])
+    userID = request.form['username']
+    password = request.form['password']
     logList = c.execute('select * from login').fetchall()
     
     idExists = False
     
     for IDs in logList:
-        if userID == int(IDs[0]):
+        if userID == IDs[0]:
             # combo = IDs
             idExists = True
             break #not needed but makes it faster

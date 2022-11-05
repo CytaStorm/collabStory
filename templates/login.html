@@ -15,12 +15,12 @@
       Enter your login information to proceed.
     </h3>    
 
-    <form action="/auth"> <!-- The significance of this line, is that when you hit submit it puts /auth in your action
+    <form action="/auth" method="POST"> <!-- The significance of this line, is that when you hit submit it puts /auth in your action
       and takes you to @app.route("/auth")
       This is built into the HTML structure. It is linking up the front and the back end. 
       The action is adding an "/auth" after the current web address. -->
 
-      UserID: <input type="number" name="username" required> 
+      UserID: <input type="text" name="username" required> 
       <br>
       Password: <input type="password" name ="password" required>
       <br>

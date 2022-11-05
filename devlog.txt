@@ -16,13 +16,13 @@ e.g.:
 clydeS -- 2999-12-31 23:59
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-<Team Name (minus "team")>
-<Member Bubbles>
-<Member Buttercup>
-<Member Blossom>
-pd <pd#>
+Bottlers
+Jeff Chen
+Fang Min Chen
+Yusha Aziz
+pd 2
 ---------------------
-<Project Title/Description>
+A collaborative story where users add on without seeing the entire rest of the story
 
 
  ______   ______   __   __   __       ______   _______     
@@ -36,9 +36,10 @@ pd <pd#>
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
-fristL -- TIMESTAMP
+jeffC -- 2022-11-5 8:54
 --------------------------------------------------------------
-<Thing fristL did.>
+Added devlog.txt
+Changed login to use username (string) instead of a userID (int)
 ==============================================================
 
 
