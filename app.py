@@ -44,11 +44,11 @@ def disp_loginpage():
 
 @app.route("/auth", methods=['POST'])
 def authenticate():
-    userID = request.form['username']
+    username = request.form['username']
     password = request.form['password']
     logList = c.execute('select * from login').fetchall()
     
-    idExists = False
+    usrExists = False
     
     for IDs in logList:
         if userID == IDs[0]:
@@ -63,7 +63,7 @@ def authenticate():
         print("\n") 
         print("Username is correct")
     
-    if(password == IDs[2]):
+    if(password == IDs[1]):
         print("password Works")
         currentUser = userID
         #print(currentUser)
@@ -83,6 +83,7 @@ def register():
     username = request.form['username']
     pass1 = request.form['password1']
     pass2 = request.form['password2']
+    newID = 1
     logList = c.execute('select * from login').fetchall()
     print("List of Logins ") 
     print(logList)
@@ -96,8 +97,7 @@ def register():
         error = "Passwords Do Not Match Try Again!"
         return render_template('signup.html', 
             error=error)
-
-    command = (f"INSERT INTO login VALUES(\"{username}\", \"{pass1}\", \"{ID}\")") #the \"\"
+    command = (f"INSERT INTO login VALUES(\"{username}\", \"{pass1}\", \"{newID}\")") #the \"\"
     c.execute(command)
     print(c.execute('select * from login').fetchall())
     db.commit()
