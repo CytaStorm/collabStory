@@ -40,6 +40,7 @@ jeffC -- 2022-11-5 8:54
 --------------------------------------------------------------
 Added devlog.txt
 Changed login to use username (string) instead of a userID (int)
+Made registration only require username and password, userID generated on registration
 ==============================================================
 
 
