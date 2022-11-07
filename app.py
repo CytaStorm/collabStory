@@ -12,6 +12,13 @@ DB_FILE = "logins.db"
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #the "check_same_thread=False" is needed to stop errors
 c = db.cursor()
 
+def updateStory(): #returns string story with all story from database
+    list = c.execute('select * from entries').fetchall()
+    storyText = ""
+    for phrases in list:
+        storyText = storyText + "\n" + phrases[1]
+    return storyText
+
 # CREATING login TABLE in logins.db
 tbleName = "login"
 parameters = "UserID INT, Name TEXT, Password TEXT"
@@ -67,7 +74,8 @@ def authenticate():
         print("password Works")
         currentUser = userID
         #print(currentUser)
-        return render_template('storyInput.html') #returns story page with userID stored
+        prevStory = updateStory()
+        return render_template('storyInput.html', story=prevStory) #returns story page with userID stored, and the story up to this point
     else:
         print("wrong password")
         return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error
@@ -107,15 +115,13 @@ def register():
 def addedStory():
     # add entry into the main story
     newEntry = request.form['newEntry']
+    currentUser = session['userID']
     command = (f"INSERT INTO entries VALUES(\"{currentUser}\", \"{newEntry}\")")
     c.execute(command) 
     # get the str of the whole story
-    list = c.execute('select * from entries').fetchall()
-    storyText = ""
-    for phrases in list:
-        storyText = storyText + "\n" + phrases[1]
-    db.commit()
     print(currentUser + "test")
+    db.commit()
+    storyText = updateStory()
     return render_template('addedStory.html', story=storyText)
 
 if __name__ == "__main__": #false if this file imported as module
