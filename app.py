@@ -54,7 +54,7 @@ def authenticate():
     usrExists = False
     
     for IDs in logList:
-        if userID == IDs[0]:
+        if username == IDs[0]:
             # combo = IDs
             idExists = True
             break #not needed but makes it faster
