@@ -3,15 +3,17 @@
 # P00
 # 2022-11-01
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import sqlite3
 
 ### SETUP ###
-
+app = Flask(__name__)
+app.secret_key = b'ekifl@&n&!urniwer7[23[q894;8^'
 DB_FILE = "logins.db"
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #the "check_same_thread=False" is needed to stop errors
 c = db.cursor()
-currentUser = ""
+
+testingUser = "test"
 
 # CREATING login TABLE in logins.db
 tbleName = "login"
@@ -65,9 +67,8 @@ def authenticate():
     
     if(password == IDs[2]):
         print("password Works")
-        currentUser = userID
-        #print(currentUser)
-        return render_template('storyInput.html') #returns story page with userID stored
+        # session['user'] = "hi"
+        return render_template('storyInput.html', lastEntry = "Whatever last entry is") #returns story page with userID stored
     else:
         print("wrong password")
         return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error
@@ -108,7 +109,7 @@ def register():
 def addedStory():
     # add entry into the main story
     newEntry = request.form['newEntry']
-    command = (f"INSERT INTO entries VALUES(\"{currentUser}\", \"{newEntry}\")")
+    command = (f"INSERT INTO entries VALUES(\"{testingUser}\", \"{newEntry}\")")
     c.execute(command) 
     # get the str of the whole story
     list = c.execute('select * from entries').fetchall()
@@ -116,7 +117,7 @@ def addedStory():
     for phrases in list:
         storyText = storyText + "\n" + phrases[1]
     db.commit()
-    print(currentUser + "test")
+    print(testingUser + "test")
     return render_template('addedStory.html', story=storyText)
 
 if __name__ == "__main__": #false if this file imported as module
