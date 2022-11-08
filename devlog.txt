@@ -35,12 +35,26 @@ A collaborative story where users add on without seeing the entire rest of the s
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+yushaA -- 2022-11-2 8:00
+--------------------------------------------------------------
+Created login.html, added the base HTML code to login to a page
+Created signup.html, added the base HTMl code to signup for a password
+Created app.py
+Added working login and signup systems using login.db as a database to store the passwords and usernames
+==============================================================
 
 jeffC -- 2022-11-5 10:50
 --------------------------------------------------------------
 Added devlog.txt
 Changed login to use username (string) instead of a userID (int)
 Made registration only require username and password, userID generated on registration, but for now it is 1
+==============================================================
+
+yushaA -- 2022-11-7 19:45
+--------------------------------------------------------------
+Modified the app.py to include autoincremation for userID's from a sign up
+Modified the signup.html and login.htl to accomodate for the new additions in app.py
+and provide support for userID's 
 ==============================================================
 
 jeffC -- 2022-11-7 21:45
@@ -50,3 +64,4 @@ Added logout functionality, and setup skeleton to redirect users who already sub
 the final page with story (this needs cookies to work)
 Updated design doc as well
 ==============================================================
+
