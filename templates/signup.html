@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 
 <html>
 
@@ -15,31 +15,27 @@
       Signup Below:
     </h3>    
 
-    <form action="/register"> <!-- The significance of this line, is that when you hit submit it puts /register in your action
+    <form action="/register" method="POST"> <!-- The significance of this line, is that when you hit submit it puts /register in your action
       and takes you to @app.route("/register")
       This is built into the HTML structure. It is linking up the front and the back end. 
       The action is adding an "/register" after the current web address. -->
 
-      Create Username: <input type="number" name="username1" required> 
+      Username: <input type="text" name="username" required> 
       <br>
-      Name: <input type="text" name="name1" required> 
-      <br>
+      {% if error == "Username already exists" %}<!-- Will run if during signup, a username already exists -->
+        <action="/">
+        Username already Exists, Try again<!-- Adds message under login -->
+      {% endif %}
+
       Create Password: <input type="password" name ="password1" required>
       <br>
       Confirm Password: <input type="password" name ="password2" required>
-      <input type="submit" name="sub3"> 
-
-      {% if error == "Username already exists" %} <!-- this code will run if there is an error: Password exists-->
-         <action= "/">
-         <br>
-         Username Exists, Try Again! <!-- Adds a message under the signup-->
-      {% endif %}
-
       {% if error == "Passwords Do Not Match Try Again!" %} <!-- this code will run if there is an error: Passwords Do Not Match -->
-         <action= "/">
+         <action="/">
          <br>
          Passwords Do Not Match, Try Again! <!-- Adds a message under the signup-->
       {% endif %}
+      <input type="submit" name="sub3"> 
 
     </form>
 
