@@ -32,7 +32,7 @@ testingUser = "test"
 
 # CREATING login TABLE in logins.db
 tbleName = "login"
-parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT, submitted INTEGER"
+parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT, Submitted INTEGER"
 
 command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
@@ -50,8 +50,6 @@ command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
 db.commit() #save changes
 
-currentUser = 0
-
 ### COOKIES ###
 
 
@@ -68,7 +66,7 @@ def authenticate():
     password = request.form['password']
     logList = c.execute('select * from login').fetchall()
     
-    usrExists = False
+    userExists = False
     
     for IDs in logList:
         if username == IDs[1]:
@@ -133,7 +131,7 @@ def logout():
 def addedStory():
     # add entry into the main story
     newEntry = request.form['newEntry']
-    command = (f"INSERT INTO entries VALUES(\"{currentUser}\", \"{newEntry}\")")
+    command = (f"INSERT INTO entries VALUES(\"session['userID']\", \"{newEntry}\")")
     c.execute(command)
     #c.execute('UPDATE login SET submitted = 1 WHERE userID = {{userID}}') #uncomment for cookies FANG
     db.commit()
