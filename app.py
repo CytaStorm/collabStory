@@ -21,7 +21,7 @@ def updateStory(): #returns string story with all story from database
 
 # CREATING login TABLE in logins.db
 tbleName = "login"
-parameters = "UserID INT, Name TEXT, Password TEXT"
+parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT"
 
 command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
@@ -39,7 +39,9 @@ command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
 db.commit() #save changes
 
-#COOKIES
+currentUser = 0
+
+### COOKIES ###
 
 
 ### FLASK ###
@@ -58,11 +60,11 @@ def authenticate():
     usrExists = False
     
     for IDs in logList:
-        if userID == IDs[0]:
-            # combo = IDs
-            idExists = True
+        if username == IDs[1]:
+            combo = IDs
+            userExists = True
             break #not needed but makes it faster
-    if(idExists == False):
+    if(userExists == False):
         print("\n")
         print("WRONG USERNAME \n") #code to see it working in the terminal
         return render_template('login.html', error = "Username Does not Exist, GO BACK") #calls the function with the error
@@ -70,17 +72,15 @@ def authenticate():
         print("\n") 
         print("Username is correct")
     
-    if(password == IDs[1]):
+    if(password == combo[2]):
         print("password Works")
-        currentUser = userID
-        #print(currentUser)
-        prevStory = updateStory()
-        return render_template('storyInput.html', story=prevStory) #returns story page with userID stored, and the story up to this point
+        currentUser = combo[0]
+        print(currentUser)
+        return render_template('storyInput.html') #returns story page with userID stored
     else:
         print("wrong password")
         return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error
         
-    return "How'd you even get here?"
 
 @app.route("/signUp")
 def signUp(): #this code will change the HTML template from login.html to signUp.html
@@ -97,25 +97,25 @@ def register():
     print(logList)
     for useID in logList :
         print(useID[0])
-        if username == useID[0] and pass1 == useID[1]:
-            print(useID[0] + useID[1])
+        if username == useID[1]:
+            print(useID[1])
             return render_template('signup.html', 
-                                   error= "Username and Password combination already exists") #redirects back to page with error
+                                   error= "Username already exists") #redirects back to page with error
     if pass1 != pass2: 
         error = "Passwords Do Not Match Try Again!"
         return render_template('signup.html', 
             error=error)
-    command = (f"INSERT INTO login VALUES(\"{username}\", \"{pass1}\", \"{newID}\")") #the \"\"
+    command = (f"INSERT INTO login VALUES(NULL, \"{username}\", \"{pass1}\")") #the \"\"
     c.execute(command)
     print(c.execute('select * from login').fetchall())
-    db.commit()
+    db.commit() #commit to update the db
     return render_template('login.html')
 
 @app.route("/addedStory", methods=['POST'])
 def addedStory():
     # add entry into the main story
     newEntry = request.form['newEntry']
-    currentUser = session['userID']
+    print(currentUser)
     command = (f"INSERT INTO entries VALUES(\"{currentUser}\", \"{newEntry}\")")
     c.execute(command) 
     print(currentUser + "test")
