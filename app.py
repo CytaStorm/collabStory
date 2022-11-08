@@ -118,7 +118,6 @@ def addedStory():
     currentUser = session['userID']
     command = (f"INSERT INTO entries VALUES(\"{currentUser}\", \"{newEntry}\")")
     c.execute(command) 
-    # get the str of the whole story
     print(currentUser + "test")
     db.commit()
     storyText = updateStory()
