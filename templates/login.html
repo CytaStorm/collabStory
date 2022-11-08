@@ -22,13 +22,13 @@
 
       UserID: <input type="text" name="username" required>
       {% if error == "Username Does not Exist, GO BACK" %} <!-- this code will run if there is an error: USERNAME DNE!  -->
-      	<action= "/">
+      	<action="/">
 	Username is Does Not Exist, Try Again <!-- Adds a message under the login-->
       {% endif %}
       <br>
       Password: <input type="password" name ="password" required>
       {% if error == "Wrong Password" %} <!-- this code will run if there is an error: Wrong password -->
-	<action= "/">
+	<action="/">
 	Password is WRONG, Try Again <!-- Adds a message under the login-->
       {% endif %}
       <br>
@@ -40,7 +40,7 @@
 
       <br>
       Do You want to SignUp? 
-      <input type="submit" name "sub2" value = "Sign Up">
+      <input type="submit" name = "sub2" value = "Sign Up">
 
     </form>
 

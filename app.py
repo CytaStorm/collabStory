@@ -3,14 +3,16 @@
 # P00
 # 2022-11-01
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import sqlite3
 
 ### SETUP ###
-
+app = Flask(__name__)
+app.secret_key = b'ekifl@&n&!urniwer7[23[q894;8^'
 DB_FILE = "logins.db"
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #the "check_same_thread=False" is needed to stop errors
 c = db.cursor()
+
 
 def updateStory(): #returns string story with all story from database
     list = c.execute('select * from entries').fetchall()
@@ -24,6 +26,10 @@ def hasSubmitted(usrID): #returns if the user has already submitted
     if submitted == 1:
         return False
     return True
+
+testingUser = "test"
+
+
 # CREATING login TABLE in logins.db
 tbleName = "login"
 parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT, submitted INTEGER"
@@ -83,7 +89,7 @@ def authenticate():
         print(currentUser)
         #if hasSubmitted(session['userID']):
             #return render_template('addedStory.html') #User has already submitted, so takes to response page FANG UNCOMMENT THIS FOR COOKIE TESTING
-        return render_template('storyInput.html') #returns story page with userID stored
+        return render_template('storyInput.html', lastEntry = "Whatever last entry is") #returns story page with userID stored
     else:
         print("wrong password")
         return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error

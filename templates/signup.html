@@ -20,18 +20,20 @@
       This is built into the HTML structure. It is linking up the front and the back end. 
       The action is adding an "/register" after the current web address. -->
 
-      Username: <input type="text" name="username" required> 
+      Create Username: <input type="number" name="username1" required> 
+      <br>
+      Name: <input type="text" name="name1" required> 
       <br>
       {% if error == "Username already exists" %}<!-- Will run if during signup, a username already exists -->
         <action="/">
-        Username already Exists, Try again<!-- Adds message under login -->
+        Username already Exists, Try again <!-- Adds message under login -->
       {% endif %}
 
       Create Password: <input type="password" name ="password1" required>
       <br>
       Confirm Password: <input type="password" name ="password2" required>
       {% if error == "Passwords Do Not Match Try Again!" %} <!-- this code will run if there is an error: Passwords Do Not Match -->
-         <action= "/">
+         <action="/">
          <br>
          Passwords Do Not Match, Try Again! <!-- Adds a message under the signup-->
       {% endif %}
