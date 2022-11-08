@@ -8,7 +8,7 @@
 
   <body>
     <h2>
-      {lastEntry} <br>
+      "{{lastEntry}}" <br>
     </h2>
 
     <h3>
@@ -22,7 +22,12 @@
       <input type="submit" name="sub1">
 
     </form>
-    
+
+    <br>
+    <form action="/logout" method="POST">
+			<input type="submit" name="sub2" value="Logout">
+		</form>
+
     <br>
   </body>
 

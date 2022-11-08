@@ -35,6 +35,21 @@ A collaborative story where users add on without seeing the entire rest of the s
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+yushaA -- 2022-11-2 8:00
+--------------------------------------------------------------
+Created login.html, added the base HTML code to login to a page
+Created signup.html, added the base HTMl code to signup for a password
+Created app.py
+Added working login and signup systems using login.db as a database to store the passwords and usernames
+==============================================================
+
+fangC -- 2022-11-02 8:00
+--------------------------------------------------------------
+Updated README.md
+Updated design.pdf
+Created and added flag.pdf
+Added design_wiki.pdf, and initialized requirements.txt
+==============================================================
 
 jeffC -- 2022-11-5 10:50
 --------------------------------------------------------------
@@ -43,4 +58,27 @@ Changed login to use username (string) instead of a userID (int)
 Made registration only require username and password, userID generated on registration, but for now it is 1
 ==============================================================
 
+yushaA -- 2022-11-7 19:45
+--------------------------------------------------------------
+Modified the app.py to include autoincremation for userID's from a sign up
+Modified the signup.html and login.htl to accomodate for the new additions in app.py
+and provide support for userID's 
+==============================================================
 
+jeffC -- 2022-11-7 21:45
+--------------------------------------------------------------
+Merged Yusha's login code to mine, and got site working except for Fang's cookies. 
+Added logout functionality, and setup skeleton to redirect users who already submitted to
+the final page with story (this needs cookies to work)
+Updated design doc as well
+==============================================================
+
+fangC -- 2022-11-07 23:41
+--------------------------------------------------------------
+Added cookies via session, allowing the server to recognize the user logged in
+Added a routing function to the base address ("/") to direct the user to the correct page
+based on cookies
+Added functionality for checking if a user has made an entry to the story, direct to story page
+if true
+Added display of full story
+==============================================================
