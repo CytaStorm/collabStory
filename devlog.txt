@@ -43,4 +43,10 @@ Changed login to use username (string) instead of a userID (int)
 Made registration only require username and password, userID generated on registration, but for now it is 1
 ==============================================================
 
-
+jeffC -- 2022-11-7 21:45
+--------------------------------------------------------------
+Merged Yusha's login code to mine, and got site working except for Fang's cookies. 
+Added logout functionality, and setup skeleton to redirect users who already submitted to
+the final page with story (this needs cookies to work)
+Updated design doc as well
+==============================================================
