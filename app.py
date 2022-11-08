@@ -19,9 +19,14 @@ def updateStory(): #returns string story with all story from database
         storyText = storyText + "\n" + phrases[1]
     return storyText
 
+def hasSubmitted(usrID): #returns if the user has already submitted
+    submitted = c.execute('select submitted from login where userID = {{usrID}}')
+    if submitted == 1:
+        return False
+    return True
 # CREATING login TABLE in logins.db
 tbleName = "login"
-parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT"
+parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT, submitted INTEGER"
 
 command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
@@ -76,6 +81,8 @@ def authenticate():
         print("password Works")
         currentUser = combo[0]
         print(currentUser)
+        #if hasSubmitted(session['userID']):
+            #return render_template('addedStory.html') #User has already submitted, so takes to response page FANG UNCOMMENT THIS FOR COOKIE TESTING
         return render_template('storyInput.html') #returns story page with userID stored
     else:
         print("wrong password")
@@ -105,20 +112,24 @@ def register():
         error = "Passwords Do Not Match Try Again!"
         return render_template('signup.html', 
             error=error)
-    command = (f"INSERT INTO login VALUES(NULL, \"{username}\", \"{pass1}\")") #the \"\"
+    command = (f"INSERT INTO login VALUES(NULL, \"{username}\", \"{pass1}\", 0)") #the \"\"
     c.execute(command)
     print(c.execute('select * from login').fetchall())
     db.commit() #commit to update the db
+    return render_template('login.html')
+
+@app.route("/logout", methods=['POST'])
+def logout():
+    #session.pop('userID', None) FANG UNCOMMENT THIS TO CHECK!!!
     return render_template('login.html')
 
 @app.route("/addedStory", methods=['POST'])
 def addedStory():
     # add entry into the main story
     newEntry = request.form['newEntry']
-    print(currentUser)
     command = (f"INSERT INTO entries VALUES(\"{currentUser}\", \"{newEntry}\")")
-    c.execute(command) 
-    print(currentUser + "test")
+    c.execute(command)
+    #c.execute('UPDATE login SET submitted = 1 WHERE userID = {{userID}}') #uncomment for cookies FANG
     db.commit()
     storyText = updateStory()
     return render_template('addedStory.html', story=storyText)
