@@ -29,7 +29,6 @@ def hasSubmitted(usrID): #returns if the user has already submitted
 
 testingUser = "test"
 
-
 # CREATING login TABLE in logins.db
 tbleName = "login"
 parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT, Submitted INTEGER"
@@ -131,7 +130,8 @@ def logout():
 def addedStory():
     # add entry into the main story
     newEntry = request.form['newEntry']
-    command = (f"INSERT INTO entries VALUES(\"session['userID']\", \"{newEntry}\")")
+    #userID = session['userID']
+    command = (f"INSERT INTO entries VALUES(\"testing!userID placeholder\", \"{newEntry}\")")
     c.execute(command)
     #c.execute('UPDATE login SET submitted = 1 WHERE userID = {{userID}}') #uncomment for cookies FANG
     db.commit()
