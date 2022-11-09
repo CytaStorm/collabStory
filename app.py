@@ -19,7 +19,8 @@ def updateStory(): #returns string story with all story from database
     return storyText
 
 def hasSubmitted(usrID): #returns if the user has already submitted
-    submitted = c.execute('select submitted from login where userID = {{usrID}}')
+    command = f"select submitted from login where userID = {usrID}"
+    submitted = c.execute(command)
     if submitted == 1:
         return False
     return True
@@ -106,6 +107,7 @@ def authenticate():
             if entry[0] == session['user']:
                 entered = True 
                 break
+        '''
         if entered:
             storyText = ""
             for phrase in entriesList:
@@ -116,6 +118,9 @@ def authenticate():
                 return render_template('storyInput.html')
             else:
                 return render_template('storyInput.html', lastEntry = str(entriesList[-1][1]))
+                '''
+        if hasSubmitted(session['user']):
+            return render_template('addedStory.html', lastEntry = updateStory()) #User has already submitted, so takes to response page FANG UNCOMMENT THIS FOR COOKIE TESTING
     else:
         print("wrong password")
         return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error
@@ -162,6 +167,7 @@ def addedStory():
         newEntry = request.form['newEntry']
         command = (f"INSERT INTO entries VALUES(\"{session['user']}\", \"{newEntry}\")")
         c.execute(command)
+        c.execute(f"UPDATE login SET submitted = 1 WHERE userID = {session['user']}") #uncomment for cookies FANG
         db.commit()
     
     inputList = c.execute('select Line from entries').fetchall()
