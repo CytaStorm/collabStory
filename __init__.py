@@ -99,7 +99,9 @@ def authenticate():
         session['user'] = combo[0] #Start a session with stored value of UserID
         #Render story page if the user already submitted an entry, otherwise render entry page
         if hasSubmitted(session['user']): 
-            return render_template('addedStory.html', lastEntry = updateStory()) #User has already submitted, so takes to response page
+            return render_template('addedStory.html', story = updateStory()) #User has already submitted, so takes to response page
+        else:
+            return render_template('storyInput.html', line = lastEntry())
     else:
         print("wrong password")
         return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error

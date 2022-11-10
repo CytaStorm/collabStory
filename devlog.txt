@@ -91,3 +91,9 @@ if true
 Added display of full story
 Merged to main
 ==============================================================
+
+fangC -- 2022-11-10 11:57
+--------------------------------------------------------------
+Cleaned up code with helper functions
+Added more comments for readability
+==============================================================
