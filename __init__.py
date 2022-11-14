@@ -11,6 +11,7 @@ DB_FILE = "logins.db"
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #the "check_same_thread=False" is needed to stop errors
 c = db.cursor()
 
+### HELPER METHODS ###
 def getStory(story): #returns string story with all story from database
     command = f'select * from {story}'
     list = c.execute(command).fetchall()
@@ -19,7 +20,7 @@ def getStory(story): #returns string story with all story from database
         storyText = storyText + "\n" + phrases[1]
     return storyText
 
-def lastEntry(story):
+def lastEntry(story): #returns last entry from selected story
     command = f'select line from {story}'
     allEntries = c.execute(command)
     db.commit()
@@ -27,9 +28,9 @@ def lastEntry(story):
     entrylist= [row[0] for row in allEntries]
     print(entrylist)
     if len(entrylist) > 0:
-        return entrylist[-1]
+        return entrylist[-1] #to make sure there is previous story to add
     else:
-        return ""
+        return "" 
 
 def hasSubmitted(usrID, story): #returns if the user has already submitted
     command = f"select submitted from {story} where userID = {usrID}"
@@ -39,7 +40,7 @@ def hasSubmitted(usrID, story): #returns if the user has already submitted
         return True
     return False
 
-def storyList():
+def storyList(): #returns a list of all stories
     command = 'select name from sqlite_master where type= "table"'
     c.execute(command)
     db.commit()

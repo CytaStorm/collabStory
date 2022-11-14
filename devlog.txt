@@ -111,3 +111,8 @@ yushaA -- 2022-11-11 19:10
 Added the launch codes to README.md
 Added the required pip installs to requirements.txt
 ==============================================================
+
+jeffC -- 2022-11-14 17:26
+--------------------------------------------------------------
+Added story select functionality
+==============================================================
