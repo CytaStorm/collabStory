@@ -28,6 +28,10 @@
     <br>
     <input type="text" name="selStory">
     <input type="submit" name="oldStory" value="Pick">
+    {% if error == "Story does not exist!" %}
+        <action="/">
+                Story doesn't exist!
+        {% endif %}
   </form>
 
 

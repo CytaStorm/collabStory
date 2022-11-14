@@ -185,6 +185,8 @@ def selectStory():
     if 'story' in session:
         session.pop('story')
     selStory = request.form['selStory']
+    if selStory not in storyList():
+        return render_template('home.html', error = "Story does not exist!", listOfStories = storyList())
     session['story'] = selStory
     if not hasSubmitted(session['user'], session['story']):
         return render_template('addedStory.html', story=getStory(session['story']))
