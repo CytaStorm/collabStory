@@ -37,18 +37,18 @@ command = (f"create table if not exists {tbleName} ({parameters})")
 c.execute(command)
 db.commit() #save changes
 
-#CREATING User entries TABLE in logins.db
-tbleName = "entries"
-parameters = "UserID INT, Line TEXT"
+# #CREATING User entries TABLE in logins.db
+# tbleName = "entries"
+# parameters = "UserID INT, Line TEXT"
 
-"""
-command = "drop table entries"
-c.execute(command)
-"""
+# """
+# command = "drop table entries"
+# c.execute(command)
+# """
 
-command = (f"create table if not exists {tbleName} ({parameters})")
-c.execute(command)
-db.commit() #save changes
+# command = (f"create table if not exists {tbleName} ({parameters})")
+# c.execute(command)
+# db.commit() #save changes
 
 ### FLASK ###
 app = Flask(__name__)    #create Flask object
@@ -59,14 +59,15 @@ def routing():
     print("routing...")
     
     if 'user' in session:
-        if hasSubmitted(session['user']):
-            return render_template('addedStory.html', story = updateStory())
-        else:
-            story = updateStory()
-            if len(story) == 0:
-                return render_template('storyInput.html')
-            else:
-                return render_template('storyInput.html', line = lastEntry())
+        # if hasSubmitted(session['user']):
+        #     return render_template('addedStory.html', story = updateStory())
+        # else:
+        #     story = updateStory()
+        #     if len(story) == 0:
+        #         return render_template('storyInput.html')
+        #     else:
+        #         return render_template('storyInput.html', line = lastEntry())
+        return render_template('home.html')
     return render_template('login.html')
 
 @app.route("/auth", methods=['POST'])
