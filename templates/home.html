@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+  <h2>
+    Welcome to your storymaking hub!
+    Do you want to...
+  </h2>
+
+  <form action="/redirect" method="POST"> <!--Upon submission, go to app.route("/redirect")-->
+    <h3>... Create a new story?</h3> 
+    <input type ="text" name="storyName"> 
+    <input type="submit" name="newStory" value="Create">
+    <br><br>
+
+    <h3>... Or add to an existing story?</h3>
+    List of existing stories: {{listOfStories}}
+    <br><br>
+    <input type="text" name="selStory">
+    <input type="submit" name="oldStory" value="Pick">
+  </form>
+
+
+</html>
