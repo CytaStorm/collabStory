@@ -1,0 +1,25 @@
+
+body {
+    background-image: url('background1.jpg');
+    color: #0e2d3c;
+    text-align: left;
+    padding-left: 200px;
+    padding-bottom: 100px;
+}
+
+#header {
+    color: #f1d2c3;
+    background-color: #0e2d3c;
+    text-align: center;
+    font-size: 50px;
+}
+
+#block {
+    text-align:left;
+    padding-left: 3000 px;
+    padding-right: 200 px;
+}
+
+#storyBackground {
+    background-image: url('background1.jpg');
+}
