@@ -25,19 +25,25 @@ def lastEntry(story):
 def hasSubmitted(usrID, story): #returns if the user has already submitted
     command = f"select submitted from {story} where userID = {usrID}"
     submitted = c.execute(command)
+    db.commit()
     if submitted == 1:
         return True
     return False
 
 def storyList():
-    list = c.execute('select * from sqlite_master where type= "table"').fetchall()
-    list.remove("login")
+    command = 'select name from sqlite_master where type= "table"'
+    c.execute(command)
+    db.commit()
+    list=c.fetchall()
+    print(list)
+    #list.remove("'login'")
+    #list.remove("'sqlite_sequence'")
     return list
 
 # CREATING login TABLE in logins.db
 tbleName = "login"
 parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT"
-command = (f"create table if not exists {tbleName} ({parameters})")
+command = f"create table if not exists {tbleName} ({parameters})"
 c.execute(command)
 db.commit() #save changes
 
@@ -62,20 +68,20 @@ app.secret_key = b'ekifl@&n&!urniwer7[23[q894;8^'
 def routing():
     print("routing...")
     if 'user' in session:
-        return render_template('home.html', storyList())
+        return render_template('home.html', listofStories = storyList())
     """
     if 'user' in session:
         # if hasSubmitted(session['user']):
         #     return render_template('addedStory.html', story = updateStory())
-        # else:
+        # else
         #     story = updateStory()
         #     if len(story) == 0:
         #         return render_template('storyInput.html')
         #     else:
         #         return render_template('storyInput.html', line = lastEntry())
         return render_template('home.html')
-    return render_template('login.html')
     """
+    return render_template('login.html')
 
 @app.route("/auth", methods=['POST'])
 def authenticate():
@@ -145,15 +151,23 @@ def register():
 
 @app.route("/newStory", methods=['POST'])
 def newStory():
-    session.pop('story')
-    newName = request.form['newStory']
-    session['srory'] = newName
+    if 'story' in session:
+        session.pop('story')
+    newName = request.form['storyName']
+    session['story'] = newName
     parameters = "userID INT, line TEXT, submitted INT"
-    command = f"create table if not exist {newName} ({parameters})"
+    command = f"create table if not exists {newName} ({parameters})"
     c.execute(command)
     db.commit()
     return render_template('storyInput.html', selectedStory = newName, line = "")   
 
+@app.route("/selectStory", methods=['POST'])
+def selectStory():
+    if 'story' in session:
+        session.pop('story')
+    selStory = request.form['selStory']
+    session['story'] = selStory
+    return render_tempate('storyInput.html', story = selStory, line = lastEntry(selStory))
 
 @app.route("/addedStory", methods=['POST'])
 def addedStory():
