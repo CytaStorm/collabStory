@@ -11,7 +11,7 @@ DB_FILE = "logins.db"
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #the "check_same_thread=False" is needed to stop errors
 c = db.cursor()
 
-def updateStory(story): #returns string story with all story from database
+def getStory(story): #returns string story with all story from database
     command = f'select * from {story}'
     list = c.execute(command).fetchall()
     storyText = ""
@@ -44,14 +44,9 @@ def storyList():
     c.execute(command)
     db.commit()
     stories=c.fetchall()
-    storylist = [row[0] for row in stories]
-
-    """
-    for e in stories:
-        storylist = storylist + e
-        """
-    #print(storylist)
-    storylist.remove("login")
+    storylist = [row[0] for row in stories] #converts list of tuples to list of strings
+    print(storylist)
+    storylist.remove("login") #removes the login table and the default table
     storylist.remove("sqlite_sequence")
     print(storylist)
     return storylist
@@ -175,6 +170,8 @@ def newStory():
     if 'story' in session:
         session.pop('story')
     newName = request.form['storyName']
+    if request.form['storyName'] == "login":
+        return render_template('home.html', error = "Invalid name! Choose something else!")
     session['story'] = newName
     parameters = "userID INT, line TEXT, submitted INT"
     command = f"create table if not exists {newName} ({parameters})"
@@ -189,12 +186,12 @@ def selectStory():
     selStory = request.form['selStory']
     session['story'] = selStory
     if not hasSubmitted(session['user'], session['story']):
-        return render_template('addedStory.html', story=updateStory(session['story']))
+        return render_template('addedStory.html', story=getStory(session['story']))
     return render_template('storyInput.html', story = selStory, line = lastEntry(selStory))
 
 @app.route("/addedStory", methods=['POST'])
 def addedStory():
-    print(str(hasSubmitted(session['user'], session['story'])) + " submission test")
+    #print(str(hasSubmitted(session['user'], session['story'])) + " submission test")
     if not (hasSubmitted(session['user'], session['story'])):
         print("adding and printing story...")
         # add entry into the main story

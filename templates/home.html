@@ -10,6 +10,10 @@
     <h3>... Create a new story?</h3> 
     <input type ="text" name="storyName"> 
     <input type="submit" name="newStory" value="Create">
+    {% if error == "Invalid name! Choose something else!" %}
+        <action="/">
+                Invalid story name! Choose something else!
+        {% endif %}
     <br><br>
   </form>
   <form action="selectStory" method="POST">
