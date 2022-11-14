@@ -13,9 +13,15 @@
     <br><br>
   </form>
   <form action="selectStory" method="POST">
-    <h3>... Or add to an existing story?</h3>
-    List of existing stories: {{listOfStories}}
-    <br><br>
+    <h3>... Or add to an existing story?
+	<br>
+	<br>
+	Current stories:
+	{% for item in listOfStories %}
+	<br>{{item}}
+	{% endfor %}
+    </h3>
+    <br>
     <input type="text" name="selStory">
     <input type="submit" name="oldStory" value="Pick">
   </form>

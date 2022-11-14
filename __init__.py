@@ -12,15 +12,24 @@ db = sqlite3.connect(DB_FILE, check_same_thread=False) #the "check_same_thread=F
 c = db.cursor()
 
 def updateStory(story): #returns string story with all story from database
-    list = c.execute('select * from {story}').fetchall()
+    command = f'select * from {story}'
+    list = c.execute(command).fetchall()
     storyText = ""
     for phrases in list:
         storyText = storyText + "\n" + phrases[1]
     return storyText
 
 def lastEntry(story):
-    list = c.execute('select * from {story}').fetchall()
-    return list[-1][1]
+    command = f'select line from {story}'
+    allEntries = c.execute(command)
+    db.commit()
+    #print(list(allEntries))
+    entrylist= [row[0] for row in allEntries]
+    print(entrylist)
+    if len(entrylist) > 0:
+        return entrylist[-1]
+    else:
+        return ""
 
 def hasSubmitted(usrID, story): #returns if the user has already submitted
     command = f"select submitted from {story} where userID = {usrID}"
@@ -34,11 +43,18 @@ def storyList():
     command = 'select name from sqlite_master where type= "table"'
     c.execute(command)
     db.commit()
-    list=c.fetchall()
-    print(list)
-    #list.remove("'login'")
-    #list.remove("'sqlite_sequence'")
-    return list
+    stories=c.fetchall()
+    storylist = [row[0] for row in stories]
+
+    """
+    for e in stories:
+        storylist = storylist + e
+        """
+    #print(storylist)
+    storylist.remove("login")
+    storylist.remove("sqlite_sequence")
+    print(storylist)
+    return storylist
 
 # CREATING login TABLE in logins.db
 tbleName = "login"
@@ -68,7 +84,7 @@ app.secret_key = b'ekifl@&n&!urniwer7[23[q894;8^'
 def routing():
     print("routing...")
     if 'user' in session:
-        return render_template('home.html', listofStories = storyList())
+        return render_template('home.html', listOfStories = storyList())
     """
     if 'user' in session:
         # if hasSubmitted(session['user']):
@@ -82,6 +98,11 @@ def routing():
         return render_template('home.html')
     """
     return render_template('login.html')
+
+@app.route("/home", methods=['POST'])
+def home():
+    session.pop('story')
+    return render_template('home.html', listOfStories = storyList())
 
 @app.route("/auth", methods=['POST'])
 def authenticate():
@@ -112,7 +133,7 @@ def authenticate():
         print("password Works")
         session['user'] = combo[0] #Start a session with stored value of UserID
         #Render story page if the user already submitted an entry, otherwise render entry page
-        return render_template('home.html')
+        return render_template('home.html', listOfStories = storyList())
     else:
         print("wrong password")
         return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error
@@ -167,19 +188,22 @@ def selectStory():
         session.pop('story')
     selStory = request.form['selStory']
     session['story'] = selStory
-    return render_tempate('storyInput.html', story = selStory, line = lastEntry(selStory))
+    if not hasSubmitted(session['user'], session['story']):
+        return render_template('addedStory.html', story=updateStory(session['story']))
+    return render_template('storyInput.html', story = selStory, line = lastEntry(selStory))
 
 @app.route("/addedStory", methods=['POST'])
 def addedStory():
-    if not(hasSubmitted(session['user'])):
+    print(str(hasSubmitted(session['user'], session['story'])) + " submission test")
+    if not (hasSubmitted(session['user'], session['story'])):
         print("adding and printing story...")
         # add entry into the main story
         story = session['story']
-        command = (f"INSERT INTO {story} VALUES(\"{session['user']}\", \"{newEntry}\", 1)")
+        command = (f"INSERT INTO {story} VALUES(\"{session['user']}\", \"{request.form['newEntry']}\", 1)")
         c.execute(command)
         db.commit()
     
-    return render_template('addedStory.html', story=updateStory())
+    return render_template('addedStory.html', story=lastEntry(session['story']))
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
     # remove the username from the session if it's there
