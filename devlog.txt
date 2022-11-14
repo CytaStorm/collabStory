@@ -35,7 +35,7 @@ A collaborative story where users add on without seeing the entire rest of the s
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-yushaA -- 2022-11-2 8:00
+yushaA -- 2022-11-02 8:00
 --------------------------------------------------------------
 Created login.html, added the base HTML code to login to a page
 Created signup.html, added the base HTMl code to signup for a password
@@ -58,7 +58,7 @@ Changed login to use username (string) instead of a userID (int)
 Made registration only require username and password, userID generated on registration, but for now it is 1
 ==============================================================
 
-yushaA -- 2022-11-7 19:45
+yushaA -- 2022-11-07 19:45
 --------------------------------------------------------------
 Modified the app.py to include autoincremation for userID's from a sign up
 Modified the signup.html and login.htl to accomodate for the new additions in app.py
@@ -90,4 +90,24 @@ Added functionality for checking if a user has made an entry to the story, direc
 if true
 Added display of full story
 Merged to main
+==============================================================
+
+yushaA -- 2022-11-09 9:30
+--------------------------------------------------------------
+Created static folder
+Created a css file, customization.css, and put it in static
+Added basic css stuff: background color for login, text color, and text allign 
+Modified login.html to use customization.css
+==============================================================
+
+fangC -- 2022-11-10 11:57
+--------------------------------------------------------------
+Cleaned up code with helper functions
+Added more comments for readability
+==============================================================
+
+yushaA -- 2022-11-11 19:10
+--------------------------------------------------------------
+Added the launch codes to README.md
+Added the required pip installs to requirements.txt
 ==============================================================

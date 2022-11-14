@@ -1,0 +1,18 @@
+
+body {
+    background-color: #f1d2c3;
+    color: #0e2d3c;
+    text-align: center;
+}
+
+#header {
+    color: #f1d2c3;
+    background-color: #0e2d3c;
+    text-align: center;
+    font-size: 50px;
+}
+
+#block {
+    background-color: #f1d2c3;
+    padding: 15px;
+}
