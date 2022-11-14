@@ -11,29 +11,55 @@ DB_FILE = "logins.db"
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #the "check_same_thread=False" is needed to stop errors
 c = db.cursor()
 
-def updateStory(): #returns string story with all story from database
-    list = c.execute('select * from entries').fetchall()
+def updateStory(story): #returns string story with all story from database
+    command = f'select * from {story}'
+    list = c.execute(command).fetchall()
     storyText = ""
     for phrases in list:
         storyText = storyText + "\n" + phrases[1]
     return storyText
 
-def lastEntry():
-    list = c.execute('select * from entries').fetchall()
-    return list[-1][1]
+def lastEntry(story):
+    command = f'select line from {story}'
+    allEntries = c.execute(command)
+    db.commit()
+    #print(list(allEntries))
+    entrylist= [row[0] for row in allEntries]
+    print(entrylist)
+    if len(entrylist) > 0:
+        return entrylist[-1]
+    else:
+        return ""
 
-def hasSubmitted(usrID): #returns if the user has already submitted
-    command = f"select submitted from login where userID = {usrID}"
+def hasSubmitted(usrID, story): #returns if the user has already submitted
+    command = f"select submitted from {story} where userID = {usrID}"
     submitted = c.execute(command)
+    db.commit()
     if submitted == 1:
         return True
     return False
 
+def storyList():
+    command = 'select name from sqlite_master where type= "table"'
+    c.execute(command)
+    db.commit()
+    stories=c.fetchall()
+    storylist = [row[0] for row in stories]
+
+    """
+    for e in stories:
+        storylist = storylist + e
+        """
+    #print(storylist)
+    storylist.remove("login")
+    storylist.remove("sqlite_sequence")
+    print(storylist)
+    return storylist
+
 # CREATING login TABLE in logins.db
 tbleName = "login"
-parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT, Submitted INTEGER"
-
-command = (f"create table if not exists {tbleName} ({parameters})")
+parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT"
+command = f"create table if not exists {tbleName} ({parameters})"
 c.execute(command)
 db.commit() #save changes
 
@@ -57,18 +83,26 @@ app.secret_key = b'ekifl@&n&!urniwer7[23[q894;8^'
 @app.route("/")
 def routing():
     print("routing...")
-    
+    if 'user' in session:
+        return render_template('home.html', listOfStories = storyList())
+    """
     if 'user' in session:
         # if hasSubmitted(session['user']):
         #     return render_template('addedStory.html', story = updateStory())
-        # else:
+        # else
         #     story = updateStory()
         #     if len(story) == 0:
         #         return render_template('storyInput.html')
         #     else:
         #         return render_template('storyInput.html', line = lastEntry())
         return render_template('home.html')
+    """
     return render_template('login.html')
+
+@app.route("/home", methods=['POST'])
+def home():
+    session.pop('story')
+    return render_template('home.html', listOfStories = storyList())
 
 @app.route("/auth", methods=['POST'])
 def authenticate():
@@ -99,10 +133,7 @@ def authenticate():
         print("password Works")
         session['user'] = combo[0] #Start a session with stored value of UserID
         #Render story page if the user already submitted an entry, otherwise render entry page
-        if hasSubmitted(session['user']): 
-            return render_template('addedStory.html', story = updateStory()) #User has already submitted, so takes to response page
-        else:
-            return render_template('storyInput.html', line = lastEntry())
+        return render_template('home.html', listOfStories = storyList())
     else:
         print("wrong password")
         return render_template('login.html', error = "Wrong Password") #calls the HTML file with the error
@@ -132,27 +163,47 @@ def register():
         return render_template('signup.html', error ="Passwords Do Not Match Try Again!")
     
     #add newly created login information to table of all login
-    command = (f"INSERT INTO login VALUES(NULL, \"{username}\", \"{pass1}\", 0)") #the \"\"
+    command = (f"INSERT INTO login VALUES(NULL, \"{username}\", \"{pass1}\")") #the \"\"
     c.execute(command)
     # print(c.execute('select * from login').fetchall()) # See new login table
     db.commit() #commit to update the db
 
     return render_template('login.html') # Return to login page
 
+@app.route("/newStory", methods=['POST'])
+def newStory():
+    if 'story' in session:
+        session.pop('story')
+    newName = request.form['storyName']
+    session['story'] = newName
+    parameters = "userID INT, line TEXT, submitted INT"
+    command = f"create table if not exists {newName} ({parameters})"
+    c.execute(command)
+    db.commit()
+    return render_template('storyInput.html', selectedStory = newName, line = "")   
+
+@app.route("/selectStory", methods=['POST'])
+def selectStory():
+    if 'story' in session:
+        session.pop('story')
+    selStory = request.form['selStory']
+    session['story'] = selStory
+    if not hasSubmitted(session['user'], session['story']):
+        return render_template('addedStory.html', story=updateStory(session['story']))
+    return render_template('storyInput.html', story = selStory, line = lastEntry(selStory))
+
 @app.route("/addedStory", methods=['POST'])
 def addedStory():
-
-    if not(hasSubmitted(session['user'])):
+    print(str(hasSubmitted(session['user'], session['story'])) + " submission test")
+    if not (hasSubmitted(session['user'], session['story'])):
         print("adding and printing story...")
         # add entry into the main story
-        newEntry = request.form['newEntry']
-        command = (f"INSERT INTO entries VALUES(\"{session['user']}\", \"{newEntry}\")")
+        story = session['story']
+        command = (f"INSERT INTO {story} VALUES(\"{session['user']}\", \"{request.form['newEntry']}\", 1)")
         c.execute(command)
-        c.execute(f"UPDATE login SET submitted = 1 WHERE userID = {session['user']}") #Update submit status
         db.commit()
     
-    return render_template('addedStory.html', story=updateStory())
-
+    return render_template('addedStory.html', story=lastEntry(session['story']))
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
     # remove the username from the session if it's there
