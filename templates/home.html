@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 
 <html>
+  <h3>
+    Bottlers: Jeff Chen, Fang Chen, Yusha Aziz
+    Softdev pd02
+    P00 - Build-a-story
+    2022-11-15
+  </h3>
+  
   <h2>
     Welcome to your storymaking hub!
     Do you want to...
@@ -13,7 +20,7 @@
   {% if error == "Story not found" %} <!-- this code will run if there is an error: USERNAME DNE!  -->
   Story not found! Are you sure you typed it in correctly?. <!-- Adds a message under the login-->
   {% endif %}
-  
+
   <form action="/redirectNew" method="POST"> <!--Upon submission, go to app.route("/redirect")-->
     <h3>... Create a new story?</h3> 
     <input type ="text" name="storyName"> 
