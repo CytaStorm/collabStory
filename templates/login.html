@@ -25,14 +25,18 @@
       Username: <input type="text" name="username" required>
       {% if error == "Username Does not Exist, GO BACK" %} <!-- this code will run if there is an error: USERNAME DNE!  -->
       	<action="/">
+        <br> <br> <b> <div id = "error"> 
 	      Username is Does Not Exist, Try Again <!-- Adds a message under the login-->
-      {% endif %}
+        </div>  </b>
+        {% endif %}
       <br>
       Password: <input type="password" name ="password" required>
       {% if error == "Wrong Password" %} <!-- this code will run if there is an error: Wrong password -->
 	      <action="/">
+          <br> <b> <div id = "error"> 
 	      Password is WRONG, Try Again <!-- Adds a message under the login-->
-      {% endif %}
+      </div>  </b>
+        {% endif %}
       <br>
       <input type="submit" name="sub1" value = "Log In"> 
 

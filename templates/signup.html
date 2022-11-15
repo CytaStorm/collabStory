@@ -4,12 +4,13 @@
 
   <head>
     <title> SIGNUP </title>
+    <link rel= "stylesheet" type="text/css" href= "../static/customization.css"> <!-- This code links in relation to the html to a backend css-->
   </head>
 
   <body>
-    <h1>
+    <div id = "header">
       Welcome, People Who Do Not Have an Account!!:
-    </h1>
+    </div>
 
     <h3>
       Signup Below:
@@ -23,17 +24,19 @@
       <br>
       {% if error == "Username already exists" %}<!-- Will run if during signup, a username already exists -->
         <action="/">
-        Username already Exists, Try again <!-- Adds message under login -->
-      {% endif %}
+        <br>  <b> <div id = "error"> Username already Exists, Try again <!-- Adds message under login -->
+        </div> </br> </b>
+          {% endif %}
 
       Create Password: <input type="password" name ="password1" required>
       <br>
       Confirm Password: <input type="password" name ="password2" required>
       {% if error == "Passwords Do Not Match Try Again!" %} <!-- this code will run if there is an error: Passwords Do Not Match -->
          <action="/">
-         <br>
+          <br> <b> <div id = "error">
          Passwords Do Not Match, Try Again! <!-- Adds a message under the signup-->
-      {% endif %}
+        </div> </br> </b>
+         {% endif %}
       <input type="submit" name="sub3"> 
 
     </form>

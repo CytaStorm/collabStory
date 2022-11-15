@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 
 <html>
-  <h2>
+  <link rel= "stylesheet" type="text/css" href= "../static/customization.css"> <!-- This code links in relation to the html to a backend css-->
+
+  <div id="header">
     Welcome to your storymaking hub!
     Do you want to...
-  </h2>
+  </div>
 
   <form action="/newStory" method="POST"> 
     <h3>... Create a new story?</h3> 
@@ -12,7 +14,9 @@
     <input type="submit" name="newStory" value="Create">
     {% if error == "Invalid name! Choose something else!" %}
         <action="/">
+          <br> <b> <div id = "error"> 
                 Invalid story name! Choose something else!
+          </b> </div> <br>
         {% endif %}
     <br><br>
   </form>
@@ -30,8 +34,14 @@
     <input type="submit" name="oldStory" value="Pick">
     {% if error == "Story does not exist!" %}
         <action="/">
+          <br> <b> <div id = "error"> 
                 Story doesn't exist!
+          <br> </b> </div>
         {% endif %}
+  </form>
+  <br>
+  <form action="/logout" method="POST">
+    <input type="submit" name="sub1" value="Logout">
   </form>
 
 
