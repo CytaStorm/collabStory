@@ -18,6 +18,7 @@ def updateStory(storyName): #returns string story with all story from database
         storyText = storyText + "\n" + phrases[1]
     return storyText
 
+<<<<<<< HEAD
 def lastEntry(storyName): 
     list = c.execute(f'select * from {storyName}').fetchall()
     return list[-1][1]
@@ -59,9 +60,8 @@ def removeSpaces(string):
 
 # CREATING login TABLE in tellAll.db
 tbleName = "login"
-parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT, Submitted INTEGER"
-
-command = (f"create table if not exists {tbleName} ({parameters})")
+parameters = "UserID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Password TEXT"
+command = f"create table if not exists {tbleName} ({parameters})"
 c.execute(command)
 db.commit() #save changes
 
@@ -78,6 +78,11 @@ def routing():
     if 'user' in session:
         return render_template('home.html', listOfStories = getStories()[2:])
     return render_template('login.html')
+
+@app.route("/home", methods=['POST'])
+def home():
+    session.pop('story')
+    return render_template('home.html', listOfStories = storyList())
 
 @app.route("/auth", methods=['POST'])
 def authenticate():
@@ -138,13 +143,14 @@ def register():
         return render_template('signup.html', error ="Passwords Do Not Match Try Again!")
     
     #add newly created login information to table of all login
-    command = (f"INSERT INTO login VALUES(NULL, \"{username}\", \"{pass1}\", 0)") #the \"\"
+    command = (f"INSERT INTO login VALUES(NULL, \"{username}\", \"{pass1}\")") #the \"\"
     c.execute(command)
     # print(c.execute('select * from login').fetchall()) # See new login table
     db.commit() #commit to update the db
 
     return render_template('login.html') # Return to login page
 
+<<<<<<< HEAD
 @app.route("/redirectNew", methods=['POST'])
 def toNew():
     storyName = removeSpaces(request.form['storyName'])

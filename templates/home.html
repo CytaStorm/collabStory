@@ -11,9 +11,14 @@
   {% endif %}
 
   <form action="/redirectNew" method="POST"> <!--Upon submission, go to app.route("/redirect")-->
+
     <h3>... Create a new story?</h3> 
     <input type ="text" name="storyName"> 
     <input type="submit" name="newStory" value="Create">
+    {% if error == "Invalid name! Choose something else!" %}
+        <action="/">
+                Invalid story name! Choose something else!
+        {% endif %}
     <br><br>
   </form> 
   
@@ -23,6 +28,10 @@
     <br><br>
     <input type="text" name="selStory">
     <input type="submit" name="oldStory" value="Pick">
+    {% if error == "Story does not exist!" %}
+        <action="/">
+                Story doesn't exist!
+        {% endif %}
   </form>
   <br>
 
