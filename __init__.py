@@ -18,7 +18,6 @@ def updateStory(storyName): #returns string story with all story from database
         storyText = storyText + "\n" + phrases[1]
     return storyText
 
-<<<<<<< HEAD
 def lastEntry(storyName): 
     list = c.execute(f'select * from {storyName}').fetchall()
     return list[-1][1]
@@ -150,7 +149,6 @@ def register():
 
     return render_template('login.html') # Return to login page
 
-<<<<<<< HEAD
 @app.route("/redirectNew", methods=['POST'])
 def toNew():
     storyName = removeSpaces(request.form['storyName'])
