@@ -81,7 +81,7 @@ def routing():
 @app.route("/home", methods=['POST'])
 def home():
     session.pop('story')
-    return render_template('home.html', listOfStories = storyList())
+    return render_template('home.html', listOfStories = getStories()[2:])
 
 @app.route("/auth", methods=['POST'])
 def authenticate():
