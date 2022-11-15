@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <link rel= "stylesheet" type="text/css" href= "../static/customization.css"> <!-- This code links in relation to the html to a backend css-->
+    </head>
+    <title> LOGIN </title>
+  </head>
+
+  <body>
+    <div id="header">
+      Welcome, Travelers of the Intertoobz!
+    </div>
+
+    <h3>
+      Enter your login information to proceed.
+    </h3>    
+
+    <form action="/auth" method="POST"> <!-- The significance of this line, is that when you hit submit it puts /auth in your action
+      and takes you to @app.route("/auth")
+      This is built into the HTML structure. It is linking up the front and the back end. 
+      The action is adding an "/auth" after the current web address. -->
+
+      Username: <input type="text" name="username" required>
+      {% if error == "Username Does not Exist, GO BACK" %} <!-- this code will run if there is an error: USERNAME DNE!  -->
+      	<action="/">
+        <br> <br> <b> <div id = "error"> 
+	      Username is Does Not Exist, Try Again <!-- Adds a message under the login-->
+        </div>  </b>
+        {% endif %}
+      <br>
+      Password: <input type="password" name ="password" required>
+      {% if error == "Wrong Password" %} <!-- this code will run if there is an error: Wrong password -->
+	      <action="/">
+          <br> <b> <div id = "error"> 
+	      Password is WRONG, Try Again <!-- Adds a message under the login-->
+      </div>  </b>
+        {% endif %}
+      <br><br>
+      <input type="submit" name="sub1" value = "Log In"> 
+
+    </form>
+
+    <form action="/signUp"> <!-- This is a button that will take you to a new page to sign up-->
+
+      <br>
+      Do You want to Sign Up? 
+      <input type="submit" name = "sub2" value = "Sign Up">
+
+    </form>
+
+
+    
+
+
+
+    <br>
+  </body>
+
+
+
+</html>
