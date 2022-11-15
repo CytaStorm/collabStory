@@ -112,7 +112,9 @@ Added the launch codes to README.md
 Added the required pip installs to requirements.txt
 ==============================================================
 
-jeffC -- 2022-11-14 17:26
+fangC -- 2022-11-14 17:42
 --------------------------------------------------------------
-Added story select functionality
+Added home page and functionality to make a new story
+Added a few more helper functions
+Reorganize the database to hold multiple stories (each in a separate table)
 ==============================================================
