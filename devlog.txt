@@ -135,3 +135,10 @@ Completed all of the css components
 Modified HTML files to accomdate for the updated CSS changes
 Modified the HTML files for the changes Jeff and Fang made
 ==============================================================
+
+fangC -- 2022-11-14 22:11
+--------------------------------------------------------------
+Debugging
+Small changes to the html files (i.e. added back buttons)
+Updated site map in design.pdf
+==============================================================
